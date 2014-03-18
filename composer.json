@@ -4,7 +4,9 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
-		"laravel/framework": "4.1.*"
+		"laravel/framework": "4.1.*",
+		"bshaffer/oauth2-server-php": "v1.3",
+		"bshaffer/oauth2-server-httpfoundation-bridge": "v1.0"
 	},
 	"autoload": {
 		"classmap": [
