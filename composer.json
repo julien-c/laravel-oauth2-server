@@ -6,7 +6,8 @@
 	"require": {
 		"laravel/framework": "4.1.*",
 		"bshaffer/oauth2-server-php": "v1.3",
-		"bshaffer/oauth2-server-httpfoundation-bridge": "v1.0"
+		"bshaffer/oauth2-server-httpfoundation-bridge": "v1.0",
+		"guzzle/guzzle": "3.*"
 	},
 	"autoload": {
 		"classmap": [
