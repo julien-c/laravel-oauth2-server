@@ -39,3 +39,21 @@ Route::post('oauth/token', function()
 	
 	return $bridgedResponse;
 });
+
+
+Route::get('private', function()
+{
+	$bridgedRequest  = OAuth2\HttpFoundationBridge\Request::createFromRequest(Request::instance());
+	$bridgedResponse = new OAuth2\HttpFoundationBridge\Response();
+	
+	if (App::make('server')->verifyResourceRequest($bridgedRequest, $bridgedResponse)) {
+		return Response::json(array(
+			'private' => 'stuff'
+		));
+	}
+	else {
+		return Response::json(array(
+			'error' => 'Unauthorized'
+		), $bridgedResponse->getStatusCode());
+	}
+});
