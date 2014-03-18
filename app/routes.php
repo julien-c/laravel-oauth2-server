@@ -15,3 +15,20 @@ Route::get('/', function()
 {
 	return View::make('hello');
 });
+
+
+Route::post('oauth/token', function()
+{
+	$storage = new OAuth2\Storage\Pdo(array('dsn' => 'mysql:dbname=oauth2;host=localhost', 'username' => 'root', 'password' => 'root'));
+	$server = new OAuth2\Server($storage);
+	
+	$server->addGrantType(new OAuth2\GrantType\ClientCredentials($storage));
+	$server->addGrantType(new OAuth2\GrantType\UserCredentials($storage));
+	
+	$bridgedRequest  = OAuth2\HttpFoundationBridge\Request::createFromRequest(Request::instance());
+	$bridgedResponse = new OAuth2\HttpFoundationBridge\Response();
+	
+	$bridgedResponse = $server->handleTokenRequest($bridgedRequest, $bridgedResponse);
+	
+	return $bridgedResponse;
+});
