@@ -41,7 +41,7 @@ class OAuthUsersSeeder extends Seeder
 		
 		DB::table('oauth_users')->insert(array(
 			'username' => "bshaffer",
-			'password' => "brent123",
+			'password' => sha1("brent123"),
 			'first_name' => "Brent",
 			'last_name' => "Shaffer",
 		));
