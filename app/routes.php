@@ -11,7 +11,7 @@
 |
 */
 
-App::singleton('server', function() {
+App::singleton('oauth2', function() {
 	
 	$storage = new OAuth2\Storage\Pdo(array('dsn' => 'mysql:dbname=oauth2;host=localhost', 'username' => 'root', 'password' => 'root'));
 	$server = new OAuth2\Server($storage);
@@ -35,7 +35,7 @@ Route::post('oauth/token', function()
 	$bridgedRequest  = OAuth2\HttpFoundationBridge\Request::createFromRequest(Request::instance());
 	$bridgedResponse = new OAuth2\HttpFoundationBridge\Response();
 	
-	$bridgedResponse = App::make('server')->handleTokenRequest($bridgedRequest, $bridgedResponse);
+	$bridgedResponse = App::make('oauth2')->handleTokenRequest($bridgedRequest, $bridgedResponse);
 	
 	return $bridgedResponse;
 });
@@ -46,7 +46,7 @@ Route::get('private', function()
 	$bridgedRequest  = OAuth2\HttpFoundationBridge\Request::createFromRequest(Request::instance());
 	$bridgedResponse = new OAuth2\HttpFoundationBridge\Response();
 	
-	if (App::make('server')->verifyResourceRequest($bridgedRequest, $bridgedResponse)) {
+	if (App::make('oauth2')->verifyResourceRequest($bridgedRequest, $bridgedResponse)) {
 		return Response::json(array(
 			'private' => 'stuff'
 		));
