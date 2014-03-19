@@ -1,21 +1,34 @@
-## Laravel PHP Framework
+## Demo integration of Brent Shaffer's oauth2-server-php into Laravel 4
 
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/version.png)](https://packagist.org/packages/laravel/framework) [![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.png)](https://packagist.org/packages/laravel/framework) [![Build Status](https://travis-ci.org/laravel/framework.png)](https://travis-ci.org/laravel/framework)
+1.  Create your Laravel project (e.g. `composer create-project laravel/laravel --prefer-dist`)
+2.  Install the OAuth2 server and HTTPFoundation bridge dependencies using Composer: `composer require bshaffer/oauth2-server-php` and `composer require bshaffer/oauth2-server-httpfoundation-bridge`
+3.  Setup your database and run the provided migration (see [https://github.com/julien-c/laravel-oauth2-server/commit/b290d4f699b9758696444e2d62dd82f0eeedcb7d](https://github.com/julien-c/laravel-oauth2-server/commit/b290d4f699b9758696444e2d62dd82f0eeedcb7d)): 
+    
+    `php artisan db:migrate`
+    
+4.  Seed your database using the provided script : [https://github.com/julien-c/laravel-oauth2-server/commit/8895c54cbf8ea8ba78aafab53a5a0409ce2f1ba2](https://github.com/julien-c/laravel-oauth2-server/commit/8895c54cbf8ea8ba78aafab53a5a0409ce2f1ba2)
+    
+    `php artisan db:seed`
+    
+5.  Setup your OAuth2 server. To be able to access the single instance anywhere in your Laravel app, you can attach it as a singleton:
+        
+    ```php
+    App::singleton('oauth2', function() {
+        
+        $storage = new OAuth2\Storage\Pdo(array('dsn' => 'mysql:dbname=oauth2;host=localhost', 'username' => 'root', 'password' => 'root'));
+        $server = new OAuth2\Server($storage);
+        
+        $server->addGrantType(new OAuth2\GrantType\ClientCredentials($storage));
+        $server->addGrantType(new OAuth2\GrantType\UserCredentials($storage));
+        
+        return $server;
+    });
+    ```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, and caching.
+6.  Implement the actual OAuth2 controllers you wish to implement. For example a token controller and a resource controller: see [`app/routes.php`](https://github.com/julien-c/laravel-oauth2-server/blob/master/app/routes.php)
+    
 
-Laravel aims to make the development process a pleasing one for the developer without sacrificing application functionality. Happy developers make the best code. To this end, we've attempted to combine the very best of what we have seen in other web frameworks, including frameworks implemented in other languages, such as Ruby on Rails, ASP.NET MVC, and Sinatra.
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
 
-## Official Documentation
 
-Documentation for the entire framework can be found on the [Laravel website](http://laravel.com/docs).
-
-### Contributing To Laravel
-
-**All issues and pull requests should be filed on the [laravel/framework](http://github.com/laravel/framework) repository.**
-
-### License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+You can even unit test your integration! Here's an example using Guzzle: [https://github.com/julien-c/laravel-oauth2-server/blob/master/app/tests/OAuthTest.php](https://github.com/julien-c/laravel-oauth2-server/blob/master/app/tests/OAuthTest.php)
