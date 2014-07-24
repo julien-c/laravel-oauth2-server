@@ -15,7 +15,7 @@
     ```php
     App::singleton('oauth2', function() {
         
-        $storage = new OAuth2\Storage\Pdo($storage = new OAuth2\Storage\Pdo(DB::connection()->getPdo()););
+        $storage = new OAuth2\Storage\Pdo(DB::connection()->getPdo());
         $server = new OAuth2\Server($storage);
         
         $server->addGrantType(new OAuth2\GrantType\ClientCredentials($storage));
