@@ -4,7 +4,7 @@
 2.  Install the OAuth2 server and HTTPFoundation bridge dependencies using Composer: `composer require bshaffer/oauth2-server-php` and `composer require bshaffer/oauth2-server-httpfoundation-bridge`
 3.  Setup your database and run the provided migration (see [https://github.com/julien-c/laravel-oauth2-server/commit/b290d4f699b9758696444e2d62dd82f0eeedcb7d](https://github.com/julien-c/laravel-oauth2-server/commit/b290d4f699b9758696444e2d62dd82f0eeedcb7d)): 
     
-    `php artisan db:migrate`
+    `php artisan migrate`
     
 4.  Seed your database using the provided script : [https://github.com/julien-c/laravel-oauth2-server/commit/8895c54cbf8ea8ba78aafab53a5a0409ce2f1ba2](https://github.com/julien-c/laravel-oauth2-server/commit/8895c54cbf8ea8ba78aafab53a5a0409ce2f1ba2)
     
