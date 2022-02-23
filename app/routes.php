@@ -30,9 +30,12 @@ Route::get('/', function()
 });
 
 
-Route::post('oauth/token', function()
+Route::post('oauth/token', function(Request $request)
 {
-	$bridgedRequest  = OAuth2\HttpFoundationBridge\Request::createFromRequest(Request::instance());
+	// $request for use static function
+	$bridgedRequest  = OAuth2\HttpFoundationBridge\Request::createFromRequest($request->instance());
+	// Set to POST Method
+	$bridgedRequest->setMethod('POST');
 	$bridgedResponse = new OAuth2\HttpFoundationBridge\Response();
 	
 	$bridgedResponse = App::make('oauth2')->handleTokenRequest($bridgedRequest, $bridgedResponse);
